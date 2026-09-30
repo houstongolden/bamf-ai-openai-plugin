@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bamf-ai",
+  "version": "1.0.0",
+  "description": "Approval-aware creator workflows for BAMF.ai, including context, ideas, drafts, media, publishing, scheduling, and analytics.",
+  "author": {
+    "name": "BAMF.ai",
+    "email": "support@bamf.ai",
+    "url": "https://bamf.ai"
+  },
+  "homepage": "https://bamf.ai/docs/mcp/overview",
+  "license": "Proprietary",
+  "keywords": [
+    "creator-workflows",
+    "content",
+    "social-media",
+    "bamf-ai"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "BAMF.ai",
+        "shortDescription": "Approval-aware creator workflows",
+        "longDescription": "Connect your BAMF.ai creator workspaces to review context, develop ideas and drafts, work with media, and manage connected publishing workflows. Consequential actions require your exact approval.",
+        "developerName": "BAMF.ai",
+        "category": "Productivity",
+        "websiteURL": "https://bamf.ai",
+        "privacyPolicyURL": "https://bamf.ai/privacy/",
+        "brandColor": "#171717",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/logo.svg",
+        "defaultPrompt": [
+          "Review the context for my selected creator space and suggest three post ideas.",
+          "Help me prepare a draft, then show me the exact content before saving it.",
+          "Review my scheduled content and summarize the next seven days."
+        ]
+      }
+    }
+  }
+}
