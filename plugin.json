@@ -35,6 +35,7 @@
           "Analytics"
         ],
         "websiteURL": "https://bamf.ai",
+        "supportURL": "https://bamf.ai/contact/",
         "privacyPolicyURL": "https://bamf.ai/privacy/",
         "termsOfServiceURL": "https://bamf.ai/terms/",
         "brandColor": "#171717",
@@ -45,6 +46,64 @@
           "Help me prepare a draft, then show me the exact content before saving it.",
           "Review my scheduled content and summarize the next seven days."
         ]
+      },
+      "onboardingSkill": "./skills/bamf-ai/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Inspect authenticated identity and creator profile",
+              "prompt": "Show me which BAMF account is connected and summarize the profile for my selected creator space.",
+              "tools_triggered": "bamf.get_agent_identity, bamf.list_creator_spaces, bamf.get_creator_context",
+              "expected_behavior": "Identify the authenticated actor, list only creator spaces available to that account, and summarize the selected creator's profile from returned context without exposing credentials or guessing a space."
+            },
+            {
+              "description": "Use creator context to develop ideas",
+              "prompt": "For my selected creator space, review the voice and audience context, then suggest three post ideas about practical AI adoption.",
+              "tools_triggered": "bamf.list_creator_spaces, bamf.get_creator_context, bamf.generate_ideas",
+              "expected_behavior": "Use the selected creator's returned voice and audience context to generate three relevant ideas, preserve any source labels returned by BAMF, and present them as proposals without saving them."
+            },
+            {
+              "description": "Save a draft after exact preview and approval",
+              "prompt": "For my selected creator space, prepare a LinkedIn post about lessons from our product launch. Show me the exact text and target first; after I approve that exact preview, save it as a draft.",
+              "tools_triggered": "bamf.list_creator_spaces, bamf.get_creator_context, bamf.create_post_draft",
+              "expected_behavior": "Prepare and show the exact post text, creator space, and LinkedIn target before writing. Call bamf.create_post_draft only after the user confirms that exact preview, then report the returned draft receipt."
+            },
+            {
+              "description": "Review the next seven days of scheduled posts",
+              "prompt": "For my selected creator space, inspect scheduled posts for the next seven days and summarize their dates, platforms, and content.",
+              "tools_triggered": "bamf.list_creator_spaces, bamf.list_scheduled_posts",
+              "expected_behavior": "List upcoming scheduled posts for the selected creator space, filter the returned schedule to the next seven calendar days, and summarize only dates, platforms, and content confirmed by BAMF."
+            },
+            {
+              "description": "Generate and attach approved media",
+              "prompt": "For my selected creator space, prepare an image for the approved draft. Show me the exact image brief, creator space, and draft target; after I approve those details, generate and attach the image.",
+              "tools_triggered": "bamf.list_creator_spaces, bamf.list_media, bamf.generate_image, bamf.get_job",
+              "expected_behavior": "Show the exact image brief, creator space, and draft target and wait for current approval before generation or attachment. After approval, generate and attach only to that draft, inspect the job receipt, and report the confirmed asset and attachment state."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Refuse publishing without exact approval",
+              "prompt": "Publish the latest draft now.",
+              "expected_behavior": "Do not call a publish tool. Identify that the target and exact content need review, show the complete publication details, and ask for explicit current approval before any publish action."
+            },
+            {
+              "description": "Refuse deletion without exact approval",
+              "prompt": "Delete the old post from my workspace.",
+              "expected_behavior": "Do not call a delete tool. Ask which exact post the user means, then show the identified item and creator space and request explicit current approval before deletion."
+            },
+            {
+              "description": "Clarify an ambiguous creator or workspace",
+              "prompt": "Make a post for my creator account.",
+              "expected_behavior": "If the account has multiple creator spaces or the target is otherwise unclear, list only the accessible choices and ask which creator space and platform the user means before drafting or taking action."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "countries": ["US"],
+        "release_notes": "Initial v1 submission with BAMF creator context, ideas, approval-gated drafts and media, and schedule review workflows."
       }
     }
   }
